@@ -4,6 +4,8 @@ screen = display.set_mode((0, 0), FULLSCREEN)
 info = display.Info()
 WIDTH = info.current_w
 HEIGHT = info.current_h
+print(WIDTH)
+print(HEIGHT)
 
 CENTER_WALLX = WIDTH // 2
 CENTER_WALLY = HEIGHT // 2
@@ -12,6 +14,7 @@ WHITE = (255, 255, 255)
 class Player(sprite.Sprite):
     def __init__(self, player_x, player_y, enemy=False):
         super().__init__()
+        self.direction = None
         self.width = 10
         self.height = 100
         self.speed = 5
@@ -20,9 +23,16 @@ class Player(sprite.Sprite):
     def update(self):
         if not self.enemy:
             keys = key.get_pressed()
-            if keys[K_UP] or keys[K_w]: self.rect.y -= 1
-            if keys[K_DOWN] or keys[K_s]: self.rect.y += 1 
-        
+            if keys[K_UP] or keys[K_w]: 
+                print(f"Current movement of x: {self.rect.x}")
+                self.rect.y -= 1
+            if keys[K_DOWN] or keys[K_s]: 
+                print(f"Current movement of y: {self.rect.y}")
+                self.rect.y += 1 
+            if self.rect.y >= 985:
+                self.rect.y -= 1
+            if self.rect.y < 0:
+                self.rect.y = 0
     def draw_player(self, screen):
         draw.rect(screen, WHITE, self.rect)
 class Ball(sprite.Sprite):
