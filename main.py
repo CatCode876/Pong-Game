@@ -20,8 +20,8 @@ class Player(sprite.Sprite):
     def update(self):
         if not self.enemy:
             keys = key.get_pressed()
-            if keys[K_UP] or keys[K_w]: self.rect.y -= 5
-            if keys[K_DOWN] or keys[K_s]: self.rect.y += 5 
+            if keys[K_UP] or keys[K_w]: self.rect.y -= 1
+            if keys[K_DOWN] or keys[K_s]: self.rect.y += 1 
         
     def draw_player(self, screen):
         draw.rect(screen, WHITE, self.rect)
