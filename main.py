@@ -18,7 +18,7 @@ class Player(sprite.Sprite):
         self.speed = 5
         self.enemy = enemy
         self.rect = Rect(player_x, player_y, self.width, self.height)
-    def update(self):
+    def update(self, ball):
         if not self.enemy:
             keys = key.get_pressed()
             if keys[K_UP] or keys[K_w]: 
@@ -29,8 +29,18 @@ class Player(sprite.Sprite):
                 self.rect.y -= 1
             if self.rect.y < 0:
                 self.rect.y = 0
+        else:
+            if self.rect.y < ball.rect.y:
+                self.rect.y += 1
+            if self.rect.y > ball.rect.y:
+                self.rect.y -= 1
+            if self.rect.y >= 985:
+                self.rect.y -= 1
+            if self.rect.y < 0:
+                self.rect.y = 0 
     def draw_player(self, screen):
         draw.rect(screen, WHITE, self.rect)
+
 class Ball(sprite.Sprite):
     def __init__(self, ball_x, ball_y):
         super().__init__()
@@ -71,8 +81,9 @@ while run:
     Ball_pong.draw(screen)
 
     Ball_pong.update()
-    Player_paddle.update()
-    Enemy_paddle.update()
-
+    Player_paddle.update(Ball_pong)
+    Enemy_paddle.update(Ball_pong)
+    if sprite.collide_rect(Player_paddle, Ball_pong) or sprite.collide_rect(Enemy_paddle, Ball_pong):
+        pass
     display.update()
     screen.fill((0, 0, 0))
