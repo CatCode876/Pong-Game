@@ -86,11 +86,9 @@ while run:
     Ball_pong.update()
     Player_paddle.update(Ball_pong)
     Enemy_paddle.update(Ball_pong)
-    if sprite.collide_rect(Player_paddle, Ball_pong):
+    if sprite.collide_rect(Player_paddle, Ball_pong) or sprite.collide_rect(Enemy_paddle, Ball_pong):
         Ball_pong.Vy = +5
         Ball_pong.Vx = +5
-    if sprite.collide_rect(Enemy_paddle, Ball_pong):
-        Ball_pong.Vy = -5
-        Ball_pong.Vx = -5
+    
     display.update()
     screen.fill((0, 0, 0))
