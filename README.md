@@ -1,2 +1,9 @@
-# Pong-Game
-This pong game made Python
+# Pong Game
+
+
+# How to run
+
+- Install uv
+- run "uv sync"
+- run "uv run python main.py"
+

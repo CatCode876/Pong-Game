@@ -52,7 +52,9 @@ class Ball(sprite.Sprite):
         self.rect = Rect(ball_x, ball_y, self.width, self.height)
     def update(self):
         if self.rect.y < 0:
-            self.rect.y = 0
+            self.rect.y -= self.Vy
+        if self.rect.y >= 985:
+            self.rect.y -= 1
         self.rect.x += self.Vx 
         self.rect.y += self.Vy
 
@@ -87,8 +89,8 @@ while run:
     Player_paddle.update(Ball_pong)
     Enemy_paddle.update(Ball_pong)
     if sprite.collide_rect(Player_paddle, Ball_pong) or sprite.collide_rect(Enemy_paddle, Ball_pong):
-        Ball_pong.Vy = +5
-        Ball_pong.Vx = +5
+        Ball_pong.Vy = -5
+        Ball_pong.Vx = -2
     
     display.update()
     screen.fill((0, 0, 0))
