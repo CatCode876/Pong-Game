@@ -42,13 +42,13 @@ class Player(sprite.Sprite):
         draw.rect(screen, WHITE, self.rect)
 
 class Ball(sprite.Sprite):
-    def __init__(self, ball_x, ball_y, player_score, enemy_score):
+    def __init__(self, ball_x, ball_y):
         super().__init__()
-        self.player_score = player_score
-        self.enemy_score = enemy_score
-        self.Vx = 0.5
+        self.player_score = 0
+        self.enemy_score = 0
+        self.Vx = 1
         self.radius = 10
-        self.Vy = 0.5
+        self.Vy = 1
         self.width = 30
         self.height = 30
         self.rect = Rect(ball_x, ball_y, self.width, self.height)
@@ -78,7 +78,10 @@ Player_paddle = Player(25, 300, False)
 Enemy_paddle = Player(1900, 300, True)
 Wall_middle = Wall(CENTER_WALLX, 0)
 Ball_pong = Ball(CENTER_WALLX, 0)
+
 run = True
+
+clock = time.Clock()
 player_score = 0
 enemy_score = 0
 while run:
@@ -100,4 +103,5 @@ while run:
         Ball_pong.Vx -= 1
         Ball_pong.Vy -= 1
     display.update()
+    clock.tick()
     screen.fill((0, 0, 0))
