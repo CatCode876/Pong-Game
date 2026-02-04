@@ -1,5 +1,10 @@
 from pygame import *
 
+font.init()
+font = font.Font(None, 50)
+
+win_font = font.render("You win", True, (255, 255, 255))
+lose_font = font.render("You lose", True, (255, 255, 255))
 screen = display.set_mode((0, 0), FULLSCREEN)
 info = display.Info()
 WIDTH = info.current_w
@@ -46,19 +51,15 @@ class Ball(sprite.Sprite):
         super().__init__()
         self.player_score = 0
         self.enemy_score = 0
-        self.Vx = 1
+        self.Vx = 0.6
         self.radius = 10
-        self.Vy = 1
+        self.Vy = 0.6
         self.width = 30
         self.height = 30
         self.rect = Rect(ball_x, ball_y, self.width, self.height)
     def update(self):
-        if self.rect.y < -9.5:
-            print(self.Vx)
-            self.rect.y = self.Vy
-        if self.rect.y > 985:
-            print(self.Vx)
-            self.rect.y -= self.Vy
+        if self.rect.top <= 0 or self.rect.bottom >= HEIGHT:
+            self.Vy *= -1
         self.rect.x += self.Vx 
         self.rect.y += self.Vy
 
@@ -80,6 +81,7 @@ Wall_middle = Wall(CENTER_WALLX, 0)
 Ball_pong = Ball(CENTER_WALLX, 0)
 
 run = True
+finish = False
 
 clock = time.Clock()
 player_score = 0
@@ -88,20 +90,35 @@ while run:
     for e in event.get():
         if e.type == QUIT:
             run = False
-    Player_paddle.draw_player(screen)
-    Enemy_paddle.draw_player(screen)
-    Wall_middle.draw(screen)
-    Ball_pong.draw(screen)
+    if not finish:
+        Player_paddle.draw_player(screen)
+        Enemy_paddle.draw_player(screen)
+        Wall_middle.draw(screen)
+        Ball_pong.draw(screen)
 
-    Ball_pong.update()
-    Player_paddle.update(Ball_pong)
-    Enemy_paddle.update(Ball_pong)
-    if sprite.collide_rect(Player_paddle, Ball_pong):
-        Ball_pong.Vy += 1
-        Ball_pong.Vx += 1
-    if sprite.collide_rect(Enemy_paddle, Ball_pong):
-        Ball_pong.Vx -= 1
-        Ball_pong.Vy -= 1
-    display.update()
+        Ball_pong.update()
+        Player_paddle.update(Ball_pong)
+        Enemy_paddle.update(Ball_pong)
+        if sprite.collide_rect(Player_paddle, Ball_pong):
+            Ball_pong.Vy += 1
+            Ball_pong.Vx += 1
+        if sprite.collide_rect(Enemy_paddle, Ball_pong):
+            Ball_pong.Vx -= 1
+            Ball_pong.Vy -= 1
+        if Ball_pong.rect.right >= WIDTH:
+            player_score += 1
+            Ball_pong.rect.center = (CENTER_WALLX, CENTER_WALLY) 
+            Ball_pong.Vx *= -1
+        if Ball_pong.rect.left <= 0:
+            enemy_score += 1
+            Ball_pong.rect.center = (CENTER_WALLX, CENTER_WALLY) 
+            Ball_pong.Vx *= -1
+        if player_score == 3:
+            finish = True
+            screen.blit(win_font, (CENTER_WALLX - 50, 20))
+        if enemy_score == 3:
+            finish = True
+            screen.blit(lose_font, (CENTER_WALLX - 50, 20))
+        display.update()
     clock.tick()
     screen.fill((0, 0, 0))

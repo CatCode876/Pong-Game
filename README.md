@@ -8,3 +8,6 @@
 3. run "uv sync" (make sure uv is install)
 4. run "uv run python main.py"
 
+# Note
+
+This won't work on linux, only windows.Macos still uncomfirm
