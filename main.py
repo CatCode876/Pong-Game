@@ -1,10 +1,12 @@
 from pygame import *
+import math
 
 font.init()
 font = font.Font(None, 50)
 
 win_font = font.render("You win", True, (255, 255, 255))
 lose_font = font.render("You lose", True, (255, 255, 255))
+q_to_quit = font.render("q to quit", True, (255, 255, 255))
 screen = display.set_mode((0, 0), FULLSCREEN)
 info = display.Info()
 WIDTH = info.current_w
@@ -78,7 +80,7 @@ class Wall(sprite.Sprite):
 Player_paddle = Player(25, 300, False)
 Enemy_paddle = Player(1900, 300, True)
 Wall_middle = Wall(CENTER_WALLX, 0)
-Ball_pong = Ball(CENTER_WALLX, 0)
+Ball_pong = Ball(CENTER_WALLX, 20)
 
 run = True
 finish = False
@@ -86,6 +88,8 @@ finish = False
 clock = time.Clock()
 player_score = 0
 enemy_score = 0
+
+
 while run:
     for e in event.get():
         keys = key.get_pressed()
@@ -122,10 +126,17 @@ while run:
 
         if player_score == 3:
             finish = True
-            screen.blit(win_font, (CENTER_WALLX - 50, 20))
+            screen.blit(win_font, (800, 100))
         if enemy_score == 3:
             finish = True
-            screen.blit(lose_font, (CENTER_WALLX - 50, 20))
+            screen.blit(lose_font, (800, 100))
+
+        player_score_font = font.render(f"{player_score}", True, (255, 255, 255))
+        enemy_score_font = font.render(f"{enemy_score}", True, (255, 255, 255))
+        screen.blit(player_score_font, (910, 20))
+        screen.blit(enemy_score_font, (1000, 20))
+        screen.blit(q_to_quit, (300, 20))
+
         display.update()
     clock.tick()
     screen.fill((0, 0, 0))
