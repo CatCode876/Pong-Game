@@ -88,8 +88,12 @@ player_score = 0
 enemy_score = 0
 while run:
     for e in event.get():
+        keys = key.get_pressed()
         if e.type == QUIT:
             run = False
+        if keys[K_q]:
+            run = False
+        
     if not finish:
         Player_paddle.draw_player(screen)
         Enemy_paddle.draw_player(screen)
@@ -99,12 +103,14 @@ while run:
         Ball_pong.update()
         Player_paddle.update(Ball_pong)
         Enemy_paddle.update(Ball_pong)
+
         if sprite.collide_rect(Player_paddle, Ball_pong):
             Ball_pong.Vy += 1
             Ball_pong.Vx += 1
         if sprite.collide_rect(Enemy_paddle, Ball_pong):
             Ball_pong.Vx -= 1
             Ball_pong.Vy -= 1
+
         if Ball_pong.rect.right >= WIDTH:
             player_score += 1
             Ball_pong.rect.center = (CENTER_WALLX, CENTER_WALLY) 
@@ -113,6 +119,7 @@ while run:
             enemy_score += 1
             Ball_pong.rect.center = (CENTER_WALLX, CENTER_WALLY) 
             Ball_pong.Vx *= -1
+
         if player_score == 3:
             finish = True
             screen.blit(win_font, (CENTER_WALLX - 50, 20))
