@@ -22,7 +22,7 @@ class Player(sprite.Sprite):
         self.direction = None
         self.width = 10
         self.height = 100
-        self.speed = 5
+        self.speed = 7
         self.enemy = enemy
         self.rect = Rect(player_x, player_y, self.width, self.height)
     def update(self, ball):
@@ -109,11 +109,15 @@ while run:
         Enemy_paddle.update(Ball_pong)
 
         if sprite.collide_rect(Player_paddle, Ball_pong):
-            Ball_pong.Vy += 1
-            Ball_pong.Vx += 1
+            Ball_pong.Vx = abs(Ball_pong.Vx)
+            Ball_pong.rect.left = Player_paddle.rect.right
+            Ball_pong.Vx *= 1.1
+            Ball_pong.Vy *= 1.1
         if sprite.collide_rect(Enemy_paddle, Ball_pong):
-            Ball_pong.Vx -= 1
-            Ball_pong.Vy -= 1
+            Ball_pong.Vx = -abs(Ball_pong.Vx)
+            Ball_pong.rect.right = Enemy_paddle.rect.left
+            Ball_pong.Vx *= 1.1
+            Ball_pong.Vy *= 1.1   
 
         if Ball_pong.rect.right >= WIDTH:
             player_score += 1
