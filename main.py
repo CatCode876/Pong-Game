@@ -4,9 +4,13 @@ import math
 font.init()
 font = font.Font(None, 50)
 
+
 win_font = font.render("You win", True, (255, 255, 255))
 lose_font = font.render("You lose", True, (255, 255, 255))
 q_to_quit = font.render("q to quit", True, (255, 255, 255))
+
+button_restart = image.load("image/restart.png")
+
 screen = display.set_mode((0, 0), FULLSCREEN)
 info = display.Info()
 WIDTH = info.current_w
@@ -16,6 +20,8 @@ CENTER_WALLX = WIDTH // 2
 CENTER_WALLY = HEIGHT // 2
 display.set_caption("Pong Game")
 WHITE = (255, 255, 255)
+
+
 class Player(sprite.Sprite):
     def __init__(self, player_x, player_y, enemy=False):
         super().__init__()
@@ -76,7 +82,6 @@ class Wall(sprite.Sprite):
         self.rect = Rect(wall_x, wall_y, self.width, self.height)
     def draw(self, screen):
         draw.rect(screen, WHITE, self.rect)
-
 Player_paddle = Player(25, 300, False)
 Enemy_paddle = Player(1900, 300, True)
 Wall_middle = Wall(CENTER_WALLX, 0)
@@ -96,6 +101,8 @@ while run:
         if e.type == QUIT:
             run = False
         if keys[K_q]:
+            run = False
+        if keys[K_ESCAPE]:
             run = False
         
     if not finish:
@@ -131,9 +138,11 @@ while run:
         if player_score == 3:
             finish = True
             screen.blit(win_font, (800, 100))
+            screen.blit(button_restart, (800, 150))
         if enemy_score == 3:
             finish = True
             screen.blit(lose_font, (800, 100))
+            screen.blit(button_restart, (800, 150))
 
         player_score_font = font.render(f"{player_score}", True, (255, 255, 255))
         enemy_score_font = font.render(f"{enemy_score}", True, (255, 255, 255))
