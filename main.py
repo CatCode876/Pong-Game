@@ -9,7 +9,6 @@ win_font = font.render("You win", True, (255, 255, 255))
 lose_font = font.render("You lose", True, (255, 255, 255))
 q_to_quit = font.render("q to quit", True, (255, 255, 255))
 
-button_restart = image.load("image/restart.png")
 
 screen = display.set_mode((0, 0), FULLSCREEN)
 info = display.Info()
@@ -138,11 +137,9 @@ while run:
         if player_score == 3:
             finish = True
             screen.blit(win_font, (800, 100))
-            screen.blit(button_restart, (800, 150))
         if enemy_score == 3:
             finish = True
             screen.blit(lose_font, (800, 100))
-            screen.blit(button_restart, (800, 150))
 
         player_score_font = font.render(f"{player_score}", True, (255, 255, 255))
         enemy_score_font = font.render(f"{enemy_score}", True, (255, 255, 255))
