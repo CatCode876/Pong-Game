@@ -113,15 +113,16 @@ def reset_game():
     Ball_pong.Vy = 0.6
     Player_paddle.rect.y = 300
     Enemy_paddle.rect.y = 300
+
 clock = time.Clock()
 player_score = 0
 enemy_score = 0
 
 
 btn_restart = Button((0, 0, 0), 250, 300, 200, 80, "RESTART") 
-btn_play = Button((0, 0, 0), 250, 300, 200, 80, "Play") 
-btn_PlayerVsBot = Button((0, 0, 0), 250, 300, 200, 80, "Player vs robot") 
-btn_PlayerVsPlayer = Button((0, 0, 0), 250, 300, 200, 80, "Player Vs Player") 
+btn_play = Button((0, 0, 0), 850, 300, 200, 80, "Pong Game") 
+btn_PlayerVsBot = Button((0, 0, 0), 850, 500, 200, 80, "Player vs robot") 
+btn_PlayerVsPlayer = Button((0, 0, 0), 850, 650, 200, 80, "Player Vs Player") 
 
 
 while run:
@@ -133,7 +134,9 @@ while run:
         if e.type == MOUSEBUTTONDOWN:
             if game_state == 'game_over' and btn_restart.is_clicked(e.pos):
                 reset_game()
-            if game_state == 'menu' and btn_play.is_clicked(e.pos):
+            if game_state == 'menu' and btn_PlayerVsBot.is_clicked(e.pos):
+                reset_game()
+            if game_state == 'menu' and btn_PlayerVsPlayer.is_clicked(e.pos):
                 reset_game()
         if keys[K_q]:
             run = False
@@ -141,6 +144,7 @@ while run:
             run = False
     if game_state == 'menu':
         btn_play.draw(screen)
+        btn_PlayerVsBot.draw(screen)
         
     elif game_state == 'playing':
         Player_paddle.draw_player(screen)
